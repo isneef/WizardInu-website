@@ -28,19 +28,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
     startCountdown();
 
-    // Wallet Connection with Animation
-    function connectWallet() {
-        const button = document.querySelector("button");
-        button.innerHTML = "🔗 Connecting...";
-        button.style.backgroundColor = "#6a0dad";
-        setTimeout(() => {
-            button.innerHTML = "✅ Connected!";
-            button.style.backgroundColor = "#28a745";
-            alert("🧙‍♂️ Wallet successfully connected!");
-        }, 2000);
+    // Real Wallet Connection
+    async function connectWallet() {
+        if (typeof window.ethereum !== "undefined") {
+            try {
+                const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+                const walletButton = document.querySelector("button");
+                walletButton.innerHTML = `✅ Connected: ${accounts[0].slice(0, 6)}...`;
+                walletButton.style.backgroundColor = "#28a745";
+            } catch (error) {
+                alert("🛑 Wallet connection failed!");
+            }
+        } else {
+            alert("❌ MetaMask not detected! Please install it to connect.");
+        }
     }
 
     document.querySelector("button").addEventListener("click", connectWallet);
+
+    // Live Price Tracker
+    async function fetchPrice() {
+        try {
+            const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=wizardinu&vs_currencies=usd");
+            const data = await response.json();
+            document.getElementById("price").innerHTML = `🔥 $${data.wizardinu.usd} USD`;
+        } catch (error) {
+            document.getElementById("price").innerHTML = "⚠️ Price unavailable";
+        }
+    }
+
+    setInterval(fetchPrice, 60000); // Update price every minute
+    fetchPrice();
 
     // Animations
     const wizardImage = document.querySelector(".hero img");
