@@ -28,10 +28,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
     startCountdown();
 
-    // Wallet Connection Simulation
+    // Wallet Connection with Animation
     function connectWallet() {
-        alert("🧙‍♂️ Wizard powers activated! Wallet connection coming soon!");
+        const button = document.querySelector("button");
+        button.innerHTML = "🔗 Connecting...";
+        button.style.backgroundColor = "#6a0dad";
+        setTimeout(() => {
+            button.innerHTML = "✅ Connected!";
+            button.style.backgroundColor = "#28a745";
+            alert("🧙‍♂️ Wallet successfully connected!");
+        }, 2000);
     }
 
     document.querySelector("button").addEventListener("click", connectWallet);
+
+    // Animations
+    const wizardImage = document.querySelector(".hero img");
+    wizardImage.addEventListener("mouseover", function () {
+        wizardImage.style.transform = "scale(1.1) rotate(5deg)";
+        wizardImage.style.transition = "transform 0.3s ease-in-out";
+    });
+
+    wizardImage.addEventListener("mouseout", function () {
+        wizardImage.style.transform = "scale(1) rotate(0deg)";
+    });
+
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    });
 });
