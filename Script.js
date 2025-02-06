@@ -1,3 +1,5 @@
+// Rebuilt WizardInu Website Script.js
+
 document.addEventListener("DOMContentLoaded", function () {
     // Countdown Timer
     function startCountdown() {
@@ -33,9 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (typeof window.ethereum !== "undefined") {
             try {
                 const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-                const walletButton = document.querySelector("button");
-                walletButton.innerHTML = `✅ Connected: ${accounts[0].slice(0, 6)}...`;
-                walletButton.style.backgroundColor = "#28a745";
+                document.getElementById("wallet-status").innerText = `✅ Connected: ${accounts[0].slice(0, 6)}...`;
             } catch (error) {
                 alert("🛑 Wallet connection failed!");
             }
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    document.querySelector("button").addEventListener("click", connectWallet);
+    document.getElementById("connect-wallet").addEventListener("click", connectWallet);
 
     // Live Price Tracker
     async function fetchPrice() {
