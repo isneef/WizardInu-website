@@ -1,94 +1,110 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    background-color: #0d0d0d;
-    color: white;
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #0a0a0a;
+    color: white;
     overflow-x: hidden;
+}
+
+.hero {
+    text-align: center;
+    margin-top: 50px;
     position: relative;
 }
 
-header {
-    background: url('images/wizard-banner.png') no-repeat center center/cover;
-    padding: 80px 20px;
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
-    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5);
+.hero img {
+    width: 200px;
+    animation: rotateCoin 5s infinite linear;
+}
+
+@keyframes rotateCoin {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+.wizard-walk {
+    position: absolute;
+    bottom: 10%;
+    left: 0;
+}
+
+.wizard-animation {
+    width: 150px;
+    position: absolute;
+    bottom: 10px;
+    animation: wizardWalk 10s infinite linear;
+}
+
+@keyframes wizardWalk {
+    0% { left: -150px; }
+    100% { left: 100vw; }
+}
+
+#timer {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
 }
 
 button {
-    background: linear-gradient(45deg, #ff9800, #ff5e00);
-    color: white;
-    padding: 15px 30px;
+    background: linear-gradient(45deg, #ff7300, #ffeb00);
+    color: black;
+    font-size: 18px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 8px;
-    font-size: 20px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 10px rgba(255, 152, 0, 0.4);
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(255, 115, 0, 0.5);
 }
 
 button:hover {
-    background: linear-gradient(45deg, #e68900, #d45000);
-    transform: scale(1.05);
-    box-shadow: 0px 6px 15px rgba(255, 152, 0, 0.6);
+    background: linear-gradient(45deg, #ffeb00, #ff7300);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 115, 0, 0.7);
 }
 
-.hero img {
-    width: 50%;
-    max-width: 350px;
-    margin: 20px auto;
-    display: block;
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-.price {
-    margin-top: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #ff9800;
-    text-shadow: 2px 2px 5px rgba(255, 152, 0, 0.6);
-}
-
-.about {
-    margin: 40px auto;
-    padding: 25px;
-    background: rgba(30, 30, 30, 0.9);
-    border-radius: 15px;
-    width: 85%;
-    max-width: 850px;
-    box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-}
-
-footer {
-    margin-top: 50px;
-    padding: 20px;
-    background: linear-gradient(45deg, #3a0ca3, #5b0fb7);
-    text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.3);
-}
-
-/* Moving Bitcoin Background */
-@keyframes moveBitcoins {
-    from { background-position: 0 0; }
-    to { background-position: 200px 200px; }
-}
-
-body::before {
-    content: '';
+.particle-container {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: url('images/bitcoin-pattern.png') repeat;
-    opacity: 0.15;
-    z-index: -1;
-    animation: moveBitcoins 15s linear infinite;
-    filter: blur(2px);
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.magic-particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: gold;
+    box-shadow: 0 0 8px gold;
+    border-radius: 50%;
+    animation: floatParticles linear infinite;
+}
+
+@keyframes floatParticles {
+    from { transform: translateY(0px); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+
+.glow-effect {
+    animation: glowPulse 1.5s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from { box-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
+    to { box-shadow: 0 0 20px rgba(255, 215, 0, 1); }
+}
+
+.rainbow-text {
+    background-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
