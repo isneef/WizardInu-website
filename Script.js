@@ -1,81 +1,94 @@
-// Rebuilt WizardInu Website Script.js
+document.addEventListener("DOMContentLoaded", () => {
+    // Load images dynamically
+    const wizardImg = new Image();
+    wizardImg.src = "images/wizard-character.png";
+    wizardImg.id = "walkingWizard";
+    wizardImg.alt = "Walking Wizard";
+    wizardImg.classList.add("wizard-animation");
+    document.querySelector(".wizard-walk").appendChild(wizardImg);
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Countdown Timer
-    function startCountdown() {
-        const launchDate = new Date("2025-02-15T00:00:00").getTime();
-        const countdownElement = document.getElementById("countdown");
+    const coinImg = new Image();
+    coinImg.src = "images/wizard-coin.png";
+    coinImg.alt = "Wizard Inu Coin";
+    coinImg.classList.add("rotate-in");
+    document.querySelector(".hero").appendChild(coinImg);
 
-        function updateCountdown() {
-            const now = new Date().getTime();
-            const timeLeft = launchDate - now;
+    // Live price animation placeholder
+    const livePrice = document.getElementById("livePrice");
+    let priceIndex = 0;
+    const priceAnimation = ["Loading.", "Loading..", "Loading...", "Almost there..."];
+    setInterval(() => {
+        livePrice.textContent = priceAnimation[priceIndex % priceAnimation.length];
+        priceIndex++;
+    }, 500);
 
-            if (timeLeft < 0) {
-                countdownElement.innerHTML = "🚀 Launching Now!";
-                clearInterval(interval);
-                return;
-            }
+    // Show info on $WIZ
+    document.querySelector(".options button").addEventListener("click", () => {
+        document.getElementById("infoWIZ").classList.toggle("hidden");
+    });
 
-            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    // Wizard walking animation with smooth effect
+    let position = 0;
+    function moveWizard() {
+        if (position < window.innerWidth - 200) {
+            position += 1.5;
+            wizardImg.style.transform = `translateX(${position}px)`;
+            requestAnimationFrame(moveWizard);
         }
-
-        const interval = setInterval(updateCountdown, 1000);
-        updateCountdown();
     }
+    moveWizard();
 
-    startCountdown();
-
-    // Real Wallet Connection
-    async function connectWallet() {
-        if (typeof window.ethereum !== "undefined") {
-            try {
-                const accounts = await ethereum.request({ method: "eth_requestAccounts" });
-                document.getElementById("wallet-status").innerText = `✅ Connected: ${accounts[0].slice(0, 6)}...`;
-            } catch (error) {
-                alert("🛑 Wallet connection failed!");
-            }
+    // Countdown timer for launch
+    const launchDate = new Date();
+    launchDate.setDate(launchDate.getDate() + 7);
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = launchDate - now;
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        document.getElementById("timer").innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        if (distance > 0) {
+            setTimeout(updateCountdown, 1000);
         } else {
-            alert("❌ MetaMask not detected! Please install it to connect.");
+            document.getElementById("timer").innerText = "Launch Time!";
         }
     }
+    updateCountdown();
 
-    document.getElementById("connect-wallet").addEventListener("click", connectWallet);
-
-    // Live Price Tracker
-    async function fetchPrice() {
-        try {
-            const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=wizardinu&vs_currencies=usd");
-            const data = await response.json();
-            document.getElementById("price").innerHTML = `🔥 $${data.wizardinu.usd} USD`;
-        } catch (error) {
-            document.getElementById("price").innerHTML = "⚠️ Price unavailable";
-        }
+    // Floating magic particles background effect
+    const particleContainer = document.createElement("div");
+    particleContainer.classList.add("particle-container");
+    document.body.appendChild(particleContainer);
+    
+    function createParticle() {
+        const particle = document.createElement("div");
+        particle.classList.add("magic-particle");
+        particle.style.left = `${Math.random() * 100}vw`;
+        particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        particleContainer.appendChild(particle);
+        setTimeout(() => {
+            particle.remove();
+        }, 5000);
     }
+    setInterval(createParticle, 200);
 
-    setInterval(fetchPrice, 60000); // Update price every minute
-    fetchPrice();
-
-    // Animations
-    const wizardImage = document.querySelector(".hero img");
-    wizardImage.addEventListener("mouseover", function () {
-        wizardImage.style.transform = "scale(1.1) rotate(5deg)";
-        wizardImage.style.transition = "transform 0.3s ease-in-out";
+    // Glowing effect for buttons
+    document.querySelectorAll("button").forEach(button => {
+        button.addEventListener("mouseover", () => {
+            button.classList.add("glow-effect");
+        });
+        button.addEventListener("mouseout", () => {
+            button.classList.remove("glow-effect");
+        });
     });
 
-    wizardImage.addEventListener("mouseout", function () {
-        wizardImage.style.transform = "scale(1) rotate(0deg)";
-    });
-
-    // Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute("href")).scrollIntoView({
+    // Smooth scroll for better UX
+    document.querySelectorAll("a[href^='#']").forEach(anchor => {
+        anchor.addEventListener("click", (event) => {
+            event.preventDefault();
+            document.querySelector(anchor.getAttribute("href")).scrollIntoView({
                 behavior: "smooth"
             });
         });
